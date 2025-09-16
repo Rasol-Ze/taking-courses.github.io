@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>انتخاب واحد</title>
+
+  <style>
+    @font-face {
+      font-family: "Noora";
+      src: url("/taking-courses/Noora-VF[DSTY\,wght].woff2") format("woff2");
+    }
+
+    * {
+      font-family: "Noora", sans-serif;
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    body {
+      background-color: rgb(46, 46, 46);
+    }
+
+    .container {
+
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      gap: 10rem;
+    }
+
+    table {
+      border: 3px solid rgb(147, 239, 255);
+      border-collapse: collapse;
+      color: white;
+      background-color: rgb(27, 27, 27);
+      box-shadow: 0 0 15px 5px rgba(15, 15, 15, 0.493);
+      border-radius: 5px;
+
+    }
+
+    .line {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .line span:nth-child(1) {
+      position: absolute;
+      left: 20px;
+      top: 12px;
+
+    }
+
+    .line span:nth-child(2) {
+      position: absolute;
+      right: 20px;
+      bottom: 15px;
+    }
+
+    .line::after {
+      position: absolute;
+      content: '';
+      width: calc(100% + 25px);
+      height: 1px;
+      background-color: rgba(147, 239, 255, 0.26);
+      left: -15px;
+      bottom: 35px;
+      transform: rotate(-29deg);
+    }
+
+    th {
+      color: rgb(147, 239, 255);
+      padding: 1.5rem 2rem;
+      border: 1px solid rgb(147, 239, 255);
+
+    }
+
+    td {
+      position: relative;
+      padding: 1.5rem 2rem;
+      border: 1px solid rgba(147, 239, 255, 0.425);
+      text-align: center;
+    }
+
+    td:hover .tooltip {
+      opacity: 1;
+    }
+
+    .tooltip {
+      z-index: 2;
+      position: absolute;
+      opacity: 0;
+      background-color: black;
+      display: flex;
+      flex-direction: column;
+      white-space: nowrap;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      pointer-events: none;
+      text-align: right;
+    }
+
+    .inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      background-color: rgb(27, 27, 27);
+      padding: 2rem 3rem;
+      border-radius: 5px;
+      box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.37);
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    input {
+      background-color: transparent;
+      margin-bottom: 1rem;
+      width: 50%;
+      height: 30px;
+      box-shadow: 0px 0px 20px 0px rgba(255, 255, 255, 0.219) inset;
+      border: none;
+      outline: 2px solid rgba(255, 255, 255, 0.432);
+      border-radius: 5px;
+      padding: 0 1rem;
+      color: white;
+      transition: all 0.3s ease-out;
+    }
+
+    input:focus {
+      outline: 3px solid rgba(255, 255, 255, 0.541);
+      transform: scale(1.1);
+      box-shadow: 0 0 10px 20px rgba(255, 255, 255, 0.295) inset;
+    }
+
+
+    .inputs p {
+      color: white;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 700;
+
+    }
+
+    input {
+      padding: 0.1rem 1rem;
+    }
+
+    .add {
+      font-size: 16px;
+      color: rgba(233, 233, 233, 0.5);
+      background-color: transparent;
+      background-image: linear-gradient(to right, rgba(185, 185, 185, 0.349), rgba(147, 167, 255, 0.253));
+      padding: 0.5rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.575);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-left: 0.5rem;
+    }
+
+    .add:hover {
+      background-color: black;
+      transform: scale(1.1) translateY(-10px);
+      box-shadow: 0px 3px 15px 0px rgb(0, 0, 0);
+    }
+
+    .add:active {
+      transform: scale(1.1) translateY(-5px);
+    }
+
+    .remove {
+      font-size: 16px;
+      color: rgba(233, 233, 233, 0.5);
+      background-color: transparent;
+      background-image: linear-gradient(to right, rgba(185, 185, 185, 0.349), rgba(147, 167, 255, 0.253));
+      padding: 0.5rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.575);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin: 0 0.5rem;
+    }
+
+    .remove:hover {
+      background-color: black;
+      transform: scale(1.1) translateY(-10px);
+      box-shadow: 0px 3px 15px 0px rgb(0, 0, 0);
+    }
+
+    .remove:active {
+      transform: scale(1.1) translateY(-5px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <table>
+      <thead>
+        <th class="line"><span>ساعت</span><span>روز</span></th>
+        <th>8-10</th>
+        <th>10-12</th>
+        <th>13-15</th>
+        <th>15-17</th>
+      </thead>
+      <tbody>
+        <tr>
+          <th>شنبه</th>
+          <td>
+            <p id="1">خالی 1</p>
+            <div class="tooltip">
+              <p id="unit1">واحد: </p>
+              <p id="master1">استاد: </p>
+              <p id="date1">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="2">خالی 2</p>
+            <div class="tooltip">
+              <p id="unit2">واحد: </p>
+              <p id="master2">استاد: </p>
+              <p id="date2">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="3">خالی 3</p>
+            <div class="tooltip">
+              <p id="unit3">واحد: </p>
+              <p id="master3">استاد: </p>
+              <p id="date3">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="4">خالی 4</p>
+            <div class="tooltip">
+              <p id="unit4">واحد: </p>
+              <p id="master4">استاد: </p>
+              <p id="date4">تاریخ امتحان: </p>
+            </div>
+          </td>
+
+        </tr>
+        <tr>
+          <th>یک شنبه</th>
+          <td>
+            <p id="5">خالی 5</p>
+            <div class="tooltip">
+              <p id="unit5">واحد: </p>
+              <p id="master5">استاد: </p>
+              <p id="date5">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="6">خالی 6</p>
+            <div class="tooltip">
+              <p id="unit6">واحد: </p>
+              <p id="master6">استاد: </p>
+              <p id="date6">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="7">خالی 7</p>
+            <div class="tooltip">
+              <p id="unit7">واحد: </p>
+              <p id="master7">استاد: </p>
+              <p id="date7">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="8">خالی 8</p>
+            <div class="tooltip">
+              <p id="unit8">واحد: </p>
+              <p id="master8">استاد: </p>
+              <p id="date8">تاریخ امتحان: </p>
+            </div>
+          </td>
+
+        </tr>
+        <tr>
+          <th>دو شنبه</th>
+          <td>
+            <p id="9">خالی 9</p>
+            <div class="tooltip">
+              <p id="unit9">واحد: </p>
+              <p id="master9">استاد: </p>
+              <p id="date9">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="10">خالی 10</p>
+            <div class="tooltip">
+              <p id="unit10">واحد: </p>
+              <p id="master10">استاد: </p>
+              <p id="date10">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="11">خالی 11</p>
+            <div class="tooltip">
+              <p id="unit11">واحد: </p>
+              <p id="master11">استاد: </p>
+              <p id="date11">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="12">خالی 12</p>
+            <div class="tooltip">
+              <p id="unit12">واحد: </p>
+              <p id="master12">استاد: </p>
+              <p id="date12">تاریخ امتحان: </p>
+            </div>
+          </td>
+
+        </tr>
+        <tr>
+          <th>سه شنبه</th>
+          <td>
+            <p id="13">خالی 13</p>
+            <div class="tooltip">
+              <p id="unit13">واحد: </p>
+              <p id="master13">استاد: </p>
+              <p id="date13">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="14">خالی 14</p>
+            <div class="tooltip">
+              <p id="unit14">واحد: </p>
+              <p id="master14">استاد: </p>
+              <p id="date14">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="15">خالی 15</p>
+            <div class="tooltip">
+              <p id="unit15">واحد: </p>
+              <p id="master15">استاد: </p>
+              <p id="date15">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="16">خالی 16</p>
+            <div class="tooltip">
+              <p id="unit16">واحد: </p>
+              <p id="master16">استاد: </p>
+              <p id="date16">تاریخ امتحان: </p>
+            </div>
+          </td>
+
+        </tr>
+        <tr>
+          <th>چهار شنبه</th>
+          <td>
+            <p id="17">خالی 17</p>
+            <div class="tooltip">
+              <p id="unit17">واحد: </p>
+              <p id="master17">استاد: </p>
+              <p id="date17">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="18">خالی 18</p>
+            <div class="tooltip">
+              <p id="unit18">واحد: </p>
+              <p id="master18">استاد: </p>
+              <p id="date18">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="19">خالی 19</p>
+            <div class="tooltip">
+              <p id="unit19">واحد: </p>
+              <p id="master19">استاد: </p>
+              <p id="date19">تاریخ امتحان: </p>
+            </div>
+          </td>
+          <td>
+            <p id="20">خالی 20</p>
+            <div class="tooltip">
+              <p id="unit20">واحد: </p>
+              <p id="master20">استاد: </p>
+              <p id="date20">تاریخ امتحان: </p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="inputs">
+      <p>حذف و اضافه</p>
+      <input id="lesson" type="text" placeholder="نام درس...">
+      <input id="unit" type="text" placeholder="واحد...">
+      <input id="master" type="text" placeholder="نام استاد...">
+      <input id="date" type="text" placeholder="تاریخ امتحان...">
+      <input id="place" type="text" placeholder="محل قرار گیری...">
+      <div>
+        <button onclick="
+        addLosson()
+      " class="add">اضافه کردن</button>
+
+        <button class="remove" onclick="
+          removeLesson()
+        ">پاک کردن</button>
+
+        <button onclick="
+          removeAll()
+        " class="remove">پاک کردن همه</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const object = {
+      lesson: '',
+      unit: '',
+      master: '',
+      date: '',
+    };
+    let list = JSON.parse(localStorage.getItem('list')) || Array.from({ length: 20 }, () => ({ ...object }));
+    console.log(list);
+
+    for (let i = 0; i < 20; i++) {
+      if (list[i].lesson) {
+        document.getElementById(`${i + 1}`).textContent = list[i].lesson;
+        document.getElementById(`unit${i + 1}`).textContent = 'واحد: ' + list[i].unit;
+        document.getElementById(`master${i + 1}`).textContent = 'استاد: ' + list[i].master;
+        document.getElementById(`date${i + 1}`).textContent = 'تاریخ امتحان: ' + list[i].date;
+      }
+    }
+
+
+    function update(num) {
+
+      document.getElementById(`${num + 1}`).textContent = list[num].lesson;
+      document.getElementById(`unit${num + 1}`).textContent = 'واحد: ' + list[num].unit;
+      document.getElementById(`master${num + 1}`).textContent = 'استاد: ' + list[num].master;
+      document.getElementById(`date${num + 1}`).textContent = 'تاریخ امتحان: ' + list[num].date;
+    }
+
+    function addLosson() {
+
+      const num = Number(document.getElementById('place').value) - 1;
+      if (isNaN(num) || num < 0 || num >= 20) {
+        alert('لطفا ورودی مناسب وارد کنید...')
+        return
+      }
+
+      list[num].lesson = document.getElementById('lesson').value;
+      if (!document.getElementById('lesson').value) {
+        alert('لطفا نام درس را وارد کنید...')
+        return
+      }
+      list[num].unit = document.getElementById('unit').value;
+      list[num].master = document.getElementById('master').value;
+      list[num].date = document.getElementById('date').value;
+
+      update(num);
+
+
+      localStorage.setItem('list', JSON.stringify(list));
+    }
+
+    function removeLesson() {
+      const num = Number(document.getElementById('place').value) - 1;
+      if (isNaN(num) || num < 0 || num >= 20) {
+        alert(`لطفا ورودی مناسب وارد کنید...\nبرای پاک کردن, وارد کردن محل قرارگیری کفایت میکند...`)
+        return
+      }
+
+      list[num].lesson = `خالی ${num + 1}`;
+      list[num].unit = '';
+      list[num].master = '';
+      list[num].date = '';
+      localStorage.setItem('list', JSON.stringify(list));
+      update(num);
+
+    }
+
+    function removeAll() {
+      list = Array.from({ length: 20 }, () => ({ ...object }));
+      localStorage.removeItem('list')
+      for (let i = 0; i < 20; i++) {
+        document.getElementById(`${i + 1}`).textContent = `خالی ${i + 1}`;
+        document.getElementById(`unit${i + 1}`).textContent = 'واحد: ';
+        document.getElementById(`master${i + 1}`).textContent = 'استاد: ';
+        document.getElementById(`date${i + 1}`).textContent = 'تاریخ امتحان: ';
+      }
+    }
+
+
+
+  </script>
+</body>
+
+</html>
